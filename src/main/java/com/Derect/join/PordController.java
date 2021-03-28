@@ -29,7 +29,7 @@ public class PordController {
         product.setPrice(price);
         productRepository.save(product);
 
-        return "redirect:home";
+        return "redirect:/product";
     }
 
 }

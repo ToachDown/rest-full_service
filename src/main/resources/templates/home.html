@@ -9,7 +9,7 @@
 <body>
 
 <div class="container">
-    <form action="/home" method="post">
+    <form action="/product" method="POST">
         <div class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping">name</span>
             <input name="name" type="text" class="form-control" placeholder="name" aria-label="name" aria-describedby="addon-wrapping">
@@ -19,9 +19,7 @@
     </form>
     <div>
         <h1 th:each="product : ${prod}">
-            <h2 th:text="${product.name}"></h2>
-            <h2 th:text="${product.price}"></h2>
-            <h2 th:text="${product.id}"></h2>
+            <h2 th:text="${product.id} + ' name= ' + ${product.name} + ' price= '+ ${product.price}"></h2>
         </h1>
     </div>
 </div>
