@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/product")
-public class PordController {
+public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
@@ -17,6 +17,14 @@ public class PordController {
             Iterable<Product> prod = productRepository.findAll();
             model.addAttribute("prod", prod);
             return "home";
+    }
+
+    @GetMapping()
+    public String find(@RequestParam("findPrice") int findPrice,
+                        Model model){
+        Iterable<Product> prod = productRepository.findByPrice(findPrice);
+        model.addAttribute("findPrice", findPrice);
+        return "redirect:/product";
     }
 
     @PostMapping()
