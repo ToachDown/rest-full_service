@@ -13,10 +13,18 @@ public class ProductController {
     private ProductRepository productRepository;
 
     @GetMapping()
-    public String list(Model model){
-            Iterable<Product> prod = productRepository.findAll();
-            model.addAttribute("prod", prod);
-            return "home";
+    public String list(@RequestParam(required = false, defaultValue = "") String filter,
+                        Model model
+    ){
+        Iterable<Product> prod;
+        if(filter != null && !filter.isEmpty()){
+            prod = productRepository.findByName(filter);
+        } else {
+            prod = productRepository.findAll();
+        }
+
+        model.addAttribute("prod", prod);
+        return "home";
     }
 
     @PostMapping()
@@ -31,16 +39,4 @@ public class ProductController {
 
         return "redirect:/product";
     }
-
-    @PostMapping("/find")
-    public String updateProduct(
-            @RequestParam("findName") String name,
-            Model model
-    ){
-        Product findProduct = productRepository.findByName(name);
-        model.addAttribute("find", findProduct);
-
-        return "redirect:/product";
-    }
-
 }
