@@ -19,14 +19,6 @@ public class ProductController {
             return "home";
     }
 
-    @GetMapping()
-    public String find(@RequestParam("findPrice") int findPrice,
-                        Model model){
-        Iterable<Product> prod = productRepository.findByPrice(findPrice);
-        model.addAttribute("findPrice", findPrice);
-        return "redirect:/product";
-    }
-
     @PostMapping()
     public String add(
         @RequestParam("name") String name,
@@ -36,6 +28,17 @@ public class ProductController {
         product.setName(name);
         product.setPrice(price);
         productRepository.save(product);
+
+        return "redirect:/product";
+    }
+
+    @PostMapping("/find")
+    public String updateProduct(
+            @RequestParam("findName") String name,
+            Model model
+    ){
+        Product findProduct = productRepository.findByName(name);
+        model.addAttribute("find", findProduct);
 
         return "redirect:/product";
     }
