@@ -9,17 +9,15 @@
 <body>
 
 <div class="container">
-    <form action="/product" method="POST">
+    <form action="/product/update" method="POST">
         <div class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping">name</span>
-            <input name="name" type="text" class="form-control" placeholder="name" aria-label="name" aria-describedby="addon-wrapping">
-            <input name="price" type="text" class="form-control" placeholder="price" aria-label="price" aria-describedby="addon-wrapping">
+            <input name="name" type="text" class="form-control" placeholder="name" th:value="${prod.name}" aria-label="name" aria-describedby="addon-wrapping">
+            <input name="price" type="text" class="form-control" placeholder="price" th:value="${prod.price}" aria-label="price" aria-describedby="addon-wrapping">
+            <input name="id"  type="hidden" th:value="${prod.id}">
             <button class="btn btn-primary" type="submit">Submit</button>
         </div>
     </form>
-    <div>
-
-    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"

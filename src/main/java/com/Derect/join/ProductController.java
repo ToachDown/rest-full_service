@@ -5,6 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/product")
 public class ProductController {
@@ -37,6 +40,30 @@ public class ProductController {
         product.setPrice(price);
         productRepository.save(product);
 
+        return "redirect:/product";
+    }
+
+    @GetMapping("/update")
+    public String up(@RequestParam("id") Long id,
+                         Model model
+    ){
+        Optional<Product> product = productRepository.findById(id);
+        Product prod = product.isPresent() ? product.get() : null ;
+        model.addAttribute("prod", prod);
+        return "updateMessage";
+    }
+
+    @PostMapping("/update")
+    public String update(@RequestParam("name") String name,
+                         @RequestParam("id") Long id,
+                         @RequestParam("price") int price,
+                         Model model
+    ){
+        Optional<Product> product = productRepository.findById(id);
+        Product prod = product.isPresent() ? product.get() : null ;
+        prod.setPrice(price);
+        prod.setName(name);
+        productRepository.save(prod);
         return "redirect:/product";
     }
 }

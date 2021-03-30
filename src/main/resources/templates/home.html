@@ -9,9 +9,6 @@
 <body>
 
 <div class="container">
-    <div>
-        <a href="/product/update">update product</a>
-    </div>
     <form action="/product" method="POST">
         <div class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping">name</span>
@@ -27,6 +24,7 @@
     <div>
         <h1 th:each="product : ${prod}">
             <h2 th:text="${product.id} + '|    ' + ${product.name} + ' price: '+ ${product.price} + '$'"></h2>
+            <a class="btn btn-primary" th:href="@{'/product/update?id='+${product.id}}">edit</a>
         </h1>
     </div>
 </div>
