@@ -9,11 +9,17 @@
 <body>
 
 <div class="container">
-    <form action="/product" method="POST">
+    <form action="/product" method="post" enctype="multipart/form-data">
         <div class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping">name</span>
             <input name="name" type="text" class="form-control" placeholder="name" aria-label="name" aria-describedby="addon-wrapping">
             <input name="price" type="text" class="form-control" placeholder="price" aria-label="price" aria-describedby="addon-wrapping">
+            <div class="form-group">
+                <div class="custom-file">
+                    <input type="file" name="file" id="customFile"/>
+                    <label class="custom-file-label" for="customFile"></label>
+                </div>
+            </div>
             <button class="btn btn-primary" type="submit">Submit</button>
         </div>
     </form>
@@ -21,12 +27,14 @@
         <input name="filter" type="text" class="form-control" placeholder="search by name" aria-label="find" aria-describedby="addon-wrapping">
         <button class="btn btn-primary" type="submit">find</button>
     </form>
-    <div>
-        <h1 th:each="product : ${prod}">
-            <h2 th:text="${product.id} + '|    ' + ${product.name} + ' price: '+ ${product.price} + '$'"></h2>
-            <a class="btn btn-primary" th:href="@{'/product/update?id='+${product.id}}">edit</a>
-        </h1>
-    </div>
+        <div>
+            <h1 th:each="product : ${prod}">
+                <a class="btn btn-primary" th:href="@{'/product/update?id='+${product.id}}">edit</a>
+                <a class="btn btn-primary" th:href="@{'/product/delete?id='+${product.id}}">delete</a>
+                <img th:src="@{'/img/'+${product.filename}}" class="card-img-top"/>
+                <h3 th:text="${product.id} + '|    ' + ${product.name} + ' price: '+ ${product.price} + '$'">
+            </h1>
+        </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"

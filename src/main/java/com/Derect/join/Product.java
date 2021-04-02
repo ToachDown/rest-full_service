@@ -13,12 +13,22 @@ public class Product {
 
     private int price;
 
+    private String filename;
+
     public Product() {
     }
 
     public Product(String name, int price) {
         this.name = name;
         this.price = price;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
     public Long getId() {

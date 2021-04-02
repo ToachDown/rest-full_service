@@ -1,16 +1,24 @@
 package com.Derect.join;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
+
+    @Value("${upload.path}")
+    private String uploadPath;
 
     @Autowired
     private ProductRepository productRepository;
@@ -34,13 +42,33 @@ public class ProductController {
     public String add(
         @RequestParam("name") String name,
         @RequestParam("price") int price,
-        Product product
-    ){
+        Product product,
+        @RequestParam("file") MultipartFile file
+    ) throws IOException{
+        saveFile(product, file);
         product.setName(name);
         product.setPrice(price);
         productRepository.save(product);
 
         return "redirect:/product";
+    }
+
+    private void saveFile(Product product,
+                          @RequestParam("file") MultipartFile file) throws IOException {
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            File uploadDir = new File(uploadPath);
+
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFilename = uuidFile + "." + file.getOriginalFilename();
+
+            file.transferTo(new File(uploadPath + "/" + resultFilename));
+
+            product.setFilename(resultFilename);
+        }
     }
 
     @GetMapping("/update")
