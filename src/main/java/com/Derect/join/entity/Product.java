@@ -1,4 +1,4 @@
-package com.Derect.join;
+package com.Derect.join.entity;
 
 import javax.persistence.*;
 
