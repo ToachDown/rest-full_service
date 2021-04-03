@@ -85,13 +85,25 @@ public class ProductController {
     public String update(@RequestParam("name") String name,
                          @RequestParam("id") Long id,
                          @RequestParam("price") int price,
+                         @RequestParam("file") MultipartFile file,
                          Model model
-    ){
+    ) throws  IOException{
         Optional<Product> product = productRepository.findById(id);
         Product prod = product.isPresent() ? product.get() : null ;
+        saveFile(prod, file);
         prod.setPrice(price);
         prod.setName(name);
         productRepository.save(prod);
+        return "redirect:/product";
+    }
+
+    @GetMapping("/delete")
+    public String delete(@RequestParam("id") Long id){
+        Optional<Product> product = productRepository.findById(id);
+        Product prod = product.isPresent() ? product.get() : null ;
+        File file = new File(uploadPath + "/" + prod.getFilename());
+        productRepository.deleteById(id);
+        file.delete();
         return "redirect:/product";
     }
 }

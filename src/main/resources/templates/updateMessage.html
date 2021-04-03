@@ -9,12 +9,19 @@
 <body>
 
 <div class="container">
-    <form action="/product/update" method="POST">
+    <form action="/product/update" method="POST" enctype="multipart/form-data">
         <div class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping">name</span>
             <input name="name" type="text" class="form-control" placeholder="name" th:value="${prod.name}" aria-label="name" aria-describedby="addon-wrapping">
             <input name="price" type="text" class="form-control" placeholder="price" th:value="${prod.price}" aria-label="price" aria-describedby="addon-wrapping">
+            <div class="form-group">
+                <div class="custom-file">
+                    <input type="file" name="file" id="customFile"/>
+                    <label class="custom-file-label" for="customFile"></label>
+                </div>
+            </div>
             <input name="id"  type="hidden" th:value="${prod.id}">
+            <img th:src="@{'/img/'+${prod.filename}}" class="card-img-top"/>
             <button class="btn btn-primary" type="submit">Submit</button>
         </div>
     </form>
