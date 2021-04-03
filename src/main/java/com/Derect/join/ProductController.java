@@ -23,6 +23,20 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
 
+    @GetMapping("/home")
+    public String main(@RequestParam(required = false, defaultValue = "") String filter,
+                       Model model){
+        Iterable<Product> prod;
+        if(filter != null && !filter.isEmpty()){
+            prod = productRepository.findByName(filter);
+        } else {
+            prod = productRepository.findAll();
+        }
+
+        model.addAttribute("prod", prod);
+        return "messList";
+    }
+
     @GetMapping()
     public String list(@RequestParam(required = false, defaultValue = "") String filter,
                         Model model
@@ -90,9 +104,16 @@ public class ProductController {
     ) throws  IOException{
         Optional<Product> product = productRepository.findById(id);
         Product prod = product.isPresent() ? product.get() : null ;
+        if(prod == null){
+            System.out.println("object is not exists");
+        }
         saveFile(prod, file);
-        prod.setPrice(price);
-        prod.setName(name);
+        if(name != prod.getName()) {
+            prod.setName(name);
+        }
+        if(price != prod.getPrice()){
+            prod.setPrice(price);
+        }
         productRepository.save(prod);
         return "redirect:/product";
     }
