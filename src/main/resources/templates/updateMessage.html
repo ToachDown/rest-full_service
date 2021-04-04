@@ -17,7 +17,7 @@
             <a class="nav-link" href="/product">Add Message</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" th:href="@{/logout}">log out</a>
+            <a class="nav-link" href="/logout">log out</a>
         </li>
     </ul>
     <form action="/product/update" method="POST" enctype="multipart/form-data">
@@ -31,6 +31,7 @@
                     <label class="custom-file-label" for="customFile"></label>
                 </div>
             </div>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <input name="id"  type="hidden" th:value="${prod.id}">
             <button class="btn btn-primary" type="submit">Submit</button>
         </div>
