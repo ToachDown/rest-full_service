@@ -3,6 +3,11 @@ package com.Derect.join.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 
-public enum Role{
+public enum Role implements GrantedAuthority{
     USER;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }

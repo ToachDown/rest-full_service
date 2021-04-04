@@ -1,9 +1,11 @@
 package com.Derect.join.controllers;
 
+import com.Derect.join.entity.User;
 import com.Derect.join.repository.ProductRepository;
 import com.Derect.join.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -55,14 +57,13 @@ public class ProductController {
 
     @PostMapping()
     public String add(
+            @AuthenticationPrincipal User seller,
         @RequestParam("name") String name,
         @RequestParam("price") int price,
-        Product product,
         @RequestParam("file") MultipartFile file
     ) throws IOException{
+        Product product = new Product(name,price, seller);
         saveFile(product, file);
-        product.setName(name);
-        product.setPrice(price);
         productRepository.save(product);
 
         return "redirect:/product";

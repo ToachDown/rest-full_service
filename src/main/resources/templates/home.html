@@ -27,7 +27,7 @@
             <input name="price" type="text" class="form-control" placeholder="price" aria-label="price" aria-describedby="addon-wrapping">
             <div class="form-group">
                 <div class="custom-file">
-                    <input type="file" name="file" id="customFile"/>
+                    <input class="btn border border-primary" type="file" name="file" id="customFile"/>
                     <label class="custom-file-label" for="customFile"></label>
                 </div>
             </div>
@@ -48,6 +48,7 @@
                     <div class="card-body">
                         <h4 class="card-title" th:text="${product.name}"></h4>
                         <p th:text="'price: '+ ${product.price} + '$'"></p>
+                        <a href="#" th:text="'seller: ' + ${product.seller.username}"></a>
                         <div class="btn-group" role="group">
                             <a class="btn btn-outline-primary" th:href="@{'/product/update?id='+${product.id}}">edit</a>
                             <a class="btn btn-outline-primary" th:href="@{'/product/delete?id='+${product.id}}">delete</a>

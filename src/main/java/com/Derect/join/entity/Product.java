@@ -15,12 +15,23 @@ public class Product {
 
     private String filename;
 
+    private User seller;
+
     public Product() {
     }
 
-    public Product(String name, int price) {
+    public Product(String name, int price, User seller) {
+        this.seller = seller;
         this.name = name;
         this.price = price;
+    }
+
+    public User getSeller() {
+        return seller;
+    }
+
+    public void setSeller(User seller) {
+        this.seller = seller;
     }
 
     public String getFilename() {
