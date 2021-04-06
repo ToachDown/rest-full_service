@@ -23,6 +23,8 @@ public class User implements UserDetails{
 
     private String email;
 
+    private String activationCode;
+
     public Long getId() {
         return id;
     }
@@ -74,6 +76,14 @@ public class User implements UserDetails{
 
     public String getPassword() {
         return password;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 
     public void setPassword(String password) {
