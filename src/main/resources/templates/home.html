@@ -51,7 +51,10 @@
         <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 10 }'>
             <div th:each="product : ${prod}">
                 <div class="grid-item border me-2 my-2" style="width: 18rem;">
-                    <img th:src="@{'/img/'+${product.filename}}" class="card-img-top"/>
+                    <div th:if="${product.filename == null}"></div>
+                    <div th:unless="${product.filename == null}">
+                        <img th:src="@{'/img/'+${product.filename}}" class="card-img-top"/>
+                    </div>
                     <div class="card-body">
                         <h4 class="card-title" th:text="${product.name}"></h4>
                         <p th:text="'price: '+ ${product.price} + '$'"></p>
