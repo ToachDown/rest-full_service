@@ -28,6 +28,7 @@ public class ProductController {
 
     @GetMapping("/home")
     public String main(@RequestParam(required = false, defaultValue = "") String filter,
+                       @AuthenticationPrincipal User user,
                        Model model){
         Iterable<Product> prod;
         if(filter != null && !filter.isEmpty()){
@@ -35,13 +36,14 @@ public class ProductController {
         } else {
             prod = productRepository.findAll();
         }
-
+        model.addAttribute("isAuthorized", user);
         model.addAttribute("prod", prod);
         return "messList";
     }
 
     @GetMapping()
     public String list(@RequestParam(required = false, defaultValue = "") String filter,
+                       @AuthenticationPrincipal User user,
                         Model model
     ){
         Iterable<Product> prod;
@@ -50,7 +52,7 @@ public class ProductController {
         } else {
             prod = productRepository.findAll();
         }
-
+        model.addAttribute("isAuthorized", user);
         model.addAttribute("prod", prod);
         return "home";
     }
@@ -89,10 +91,12 @@ public class ProductController {
 
     @GetMapping("/update")
     public String up(@RequestParam("id") Long id,
+                     @AuthenticationPrincipal User user,
                          Model model
     ){
         Optional<Product> product = productRepository.findById(id);
         Product prod = product.isPresent() ? product.get() : null ;
+        model.addAttribute("isAuthorized", user);
         model.addAttribute("prod", prod);
         return "updateMessage";
     }
@@ -121,12 +125,15 @@ public class ProductController {
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam("id") Long id){
+    public String delete(@RequestParam("id") Long id,
+                         @AuthenticationPrincipal User user,
+                         Model model){
         Optional<Product> product = productRepository.findById(id);
         Product prod = product.isPresent() ? product.get() : null ;
         File file = new File(uploadPath + "/" + prod.getFilename());
         productRepository.deleteById(id);
         file.delete();
+        model.addAttribute("isAuthorized", user);
         return "redirect:/product";
     }
 }

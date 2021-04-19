@@ -3,6 +3,7 @@ package com.Derect.join.controllers;
 import com.Derect.join.entity.User;
 import com.Derect.join.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -17,7 +18,9 @@ public class RegistrationController {
     private UserService userService;
 
     @GetMapping("/registration")
-    public String registration() {
+    public String registration(@AuthenticationPrincipal User user,
+                               Model model) {
+        model.addAttribute("isAuthorized", user);
         return "registration";
     }
 
@@ -40,7 +43,9 @@ public class RegistrationController {
     }
 
     @GetMapping("/activate/{code}")
-    public String activate(Model model, @PathVariable String code){
+    public String activate(Model model,
+                           @AuthenticationPrincipal User user,
+                           @PathVariable String code){
         boolean isActivated = userService.activateUser(code);
 
         if(isActivated){
@@ -48,7 +53,7 @@ public class RegistrationController {
         } else {
             model.addAttribute("message", "Activation code not found");
         }
-
+        model.addAttribute("isAuthorized", user);
         return "login";
     }
 }

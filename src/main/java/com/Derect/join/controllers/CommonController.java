@@ -14,6 +14,7 @@ public class CommonController {
                           Model model) {
         if(user != null) {
             model.addAttribute("name", user.getUsername());
+            model.addAttribute("isAuthorized", user);
         } else{
             model.addAttribute("name", "Guest");
         }
