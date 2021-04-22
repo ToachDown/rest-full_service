@@ -136,4 +136,14 @@ public class ProductController {
         model.addAttribute("isAuthorized", user);
         return "redirect:/product";
     }
+
+    @GetMapping("/page/{id}")
+    public String mainPage(@PathVariable Long id,
+                           Model model,
+                           @AuthenticationPrincipal User user){
+        model.addAttribute("isAuthorized", user);
+        Iterable<Product> prod = productRepository.findBySeller(user);
+        model.addAttribute("prod", prod);
+        return "mainPage";
+    }
 }
