@@ -11,28 +11,23 @@
 <div class="container">
     <ul class="nav justify-content-center">
         <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="/">Guest Page</a>
+            <a class="nav-link lead" aria-current="page" href="/">Guest Page</a>
         </li>
         <li class="nav-item">
             <div th:if="${isAuthorized != null}">
-                <a class="nav-link" aria-current="page" href="/product/home">Message List</a>
+                <a class="nav-link lead" href="/product">Product list</a>
             </div>
         </li>
         <li class="nav-item">
             <div th:if="${isAuthorized != null}">
-                <a class="nav-link" href="/product">Add Message</a>
+                <a class="nav-link lead" th:href="@{'/product/page/' + ${isAuthorized.id}}" th:text="${isAuthorized.username}"></a>
             </div>
         </li>
         <li class="nav-item">
             <div th:if="${isAuthorized != null}">
-                <a class="nav-link" th:href="@{'/product/page/' + ${isAuthorized.id}}" th:text="${isAuthorized.username}"></a>
+                <a class="nav-link lead" href="/logout">log out</a>
             </div>
-        </li>
-        <li class="nav-item">
-            <div th:if="${isAuthorized != null}">
-                <a class="nav-link" href="/logout">log out</a>
-            </div>
-            <div th:unless="${isAuthorized != null}"><a class="nav-link" href="/login">Sign in</a></div>
+            <div th:unless="${isAuthorized != null}"><a class="nav-link lead" href="/login">Sign in</a></div>
         </li>
     </ul>
     <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 10 }'>

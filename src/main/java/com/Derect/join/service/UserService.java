@@ -1,5 +1,6 @@
 package com.Derect.join.service;
 
+import com.Derect.join.entity.Product;
 import com.Derect.join.entity.Role;
 import com.Derect.join.entity.User;
 import com.Derect.join.repository.UserRepository;
@@ -9,7 +10,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.UUID;
 
