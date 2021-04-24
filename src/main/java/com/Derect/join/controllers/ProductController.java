@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 
 @Controller
@@ -22,7 +23,7 @@ public class ProductController {
     @GetMapping()
     public String list(@RequestParam(required = false, defaultValue = "") String filter,
                        @AuthenticationPrincipal User user,
-                        Model model
+                       Model model
     ){
 
         Iterable<Product> prod = productService.checkFilter(filter);
@@ -38,7 +39,7 @@ public class ProductController {
             @RequestParam("price") int price,
             @RequestParam("file") MultipartFile file
     ) throws IOException{
-        Product product = new Product(name,price,seller);
+        Product product = new Product(name, price, seller);
         productService.saveFile(product, file);
         productService.saveProduct(product);
         return "redirect:/product";
@@ -47,7 +48,7 @@ public class ProductController {
     @GetMapping("/update")
     public String up(@RequestParam("id") Long id,
                      @AuthenticationPrincipal User user,
-                         Model model
+                     Model model
     ){
         Product prod = productService.findProductById(id);
         model.addAttribute("isAuthorized", user);
@@ -56,7 +57,7 @@ public class ProductController {
     }
 
     @PostMapping("/update")
-    public String update(@RequestParam("name") String name,
+    public String update(@Valid @RequestParam("name") String name,
                          @RequestParam("id") Long id,
                          @RequestParam("price") int price,
                          @RequestParam("file") MultipartFile file,

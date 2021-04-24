@@ -1,9 +1,9 @@
 package com.Derect.join.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Product {
@@ -12,12 +12,16 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank(message = "please fill name!")
+    @Length(max = 255, message = "name more than 255 letters")
     private String name;
 
     private int price;
 
     private String filename;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User seller;
 
     public Product() {

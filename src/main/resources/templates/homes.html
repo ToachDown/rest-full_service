@@ -34,11 +34,11 @@
        Add Message
     </button>
     <div class="collapse pt-2" id="collapseExample">
-        <form action="/product" method="post" enctype="multipart/form-data">
+        <form action="/product" class="needs-validation" method="post" enctype="multipart/form-data">
             <div class="input-group flex-nowrap">
                 <span class="input-group-text" id="addon-wrapping">name</span>
-                <input name="name" type="text" class="form-control" placeholder="name" aria-label="name" aria-describedby="addon-wrapping">
-                <input name="price" type="text" class="form-control" placeholder="price" aria-label="price" aria-describedby="addon-wrapping">
+                <input name="name" type="text" class="form-control" placeholder="name" aria-label="name" aria-describedby="addon-wrapping" required>
+                <input name="price" type="number" class="form-control" placeholder="price" aria-label="price" aria-describedby="addon-wrapping" required>
                 <div class="form-group">
                     <div class="custom-file">
                         <input class="btn border border-primary" type="file" name="file" id="customFile"/>

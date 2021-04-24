@@ -1,9 +1,12 @@
 package com.Derect.join.entity;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Set;
 
@@ -14,8 +17,12 @@ public class User implements UserDetails{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank
+    @Length(max = 24,min = 1, message = "you fill less than 4 letters or more than 24 letters")
     private String username;
 
+    @NotBlank
+    @Length(max = 24,min = 4, message = "you fill less than 4 letters or more than 24 letters")
     private String password;
 
     private boolean active;
@@ -25,6 +32,7 @@ public class User implements UserDetails{
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+    @Email
     private String email;
 
     private String activationCode;
