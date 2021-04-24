@@ -25,7 +25,6 @@ public class ProductController {
                        @AuthenticationPrincipal User user,
                        Model model
     ){
-
         Iterable<Product> prod = productService.checkFilter(filter);
         model.addAttribute("isAuthorized", user);
         model.addAttribute("prod", prod);
@@ -82,7 +81,9 @@ public class ProductController {
     public String mainPage(@PathVariable Long id,
                            Model model,
                            @AuthenticationPrincipal User user){
-        Iterable<Product> prod = productService.findProductBySeller(user);
+        Iterable<Product> prod = productService.findProductBySellerById(id);
+        boolean roots = id == user.getId();
+        model.addAttribute("roots",roots);
         model.addAttribute("isAuthorized", user);
         model.addAttribute("prod", prod);
         return "mainPage";

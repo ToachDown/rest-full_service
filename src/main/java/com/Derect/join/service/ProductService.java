@@ -3,6 +3,7 @@ package com.Derect.join.service;
 import com.Derect.join.entity.Product;
 import com.Derect.join.entity.User;
 import com.Derect.join.repository.ProductRepository;
+import com.Derect.join.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public void saveFile(Product product,
                           @RequestParam("file") MultipartFile file) throws IOException {
@@ -88,6 +92,16 @@ public class ProductService {
         Product prod = product.isPresent() ? product.get() : null ;
         return prod;
     }
+
+    public Iterable<Product> findProductBySellerById(Long id){
+        Optional<User> user = userRepository.findById(id);
+        User seller = user.isPresent() ? user.get() : null;
+        if(seller != null) {
+            return productRepository.findBySeller(seller);
+        }
+        return null;
+    }
+
 
     public Iterable<Product> findProductBySeller(User user){
         Iterable<Product> prod = productRepository.findBySeller(user);

@@ -30,6 +30,9 @@
             <div th:unless="${isAuthorized != null}"><a class="nav-link lead" href="/login">Sign in</a></div>
         </li>
     </ul>
+    <div>
+
+    </div>
     <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 10 }'>
         <div th:each="product : ${prod}">
             <div class="grid-item border me-2 my-2" style="width: 18rem;">
@@ -41,10 +44,11 @@
                     <h4 class="card-title" th:text="${product.name}"></h4>
                     <p th:text="'price: '+ ${product.price} + '$'"></p>
                     <a href="#" th:text="'seller: ' + ${product.seller.username}"></a>
-                    <div class="btn-group" role="group">
+                    <div th:if="${roots}" class="btn-group" role="group">
                         <a class="btn btn-outline-primary" th:href="@{'/product/update?id='+${product.id}}">edit</a>
                         <a class="btn btn-outline-primary" th:href="@{'/product/delete?id='+${product.id}}">delete</a>
                     </div>
+                    <div th:unless="${roots}"></div>
                 </div>
             </div>
         </div>

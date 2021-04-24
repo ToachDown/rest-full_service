@@ -8,7 +8,6 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="display-5" th:text="${message}"></h1>
     <ul class="nav justify-content-center">
         <li class="nav-item">
             <a class="nav-link lead" aria-current="page" href="/">Guest Page</a>
@@ -33,6 +32,7 @@
         </li>
     </ul>
         <div class="mx-auto mt-5" style="width: 30%">
+            <h1 class="display-5" th:text="${message}"></h1>
             <h2 class="mx-auto" style="width: 30%" >Login</h2>
             <form class="mx-auto" style="width: 55%" action="/login" method="post">
                 <div><label> User Name : <input class="form-control" type="text" name="username"/> </label></div>
