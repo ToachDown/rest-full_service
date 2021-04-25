@@ -31,7 +31,7 @@
         </li>
     </ul>
     <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-       Add Message
+       Add Product
     </button>
     <div class="collapse pt-2" id="collapseExample">
         <form action="/product" class="needs-validation" method="post" enctype="multipart/form-data">
@@ -59,6 +59,7 @@
         <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 10 }'>
             <div th:each="product : ${prod}">
                 <div class="grid-item border me-2 my-2" style="width: 18rem;">
+                    <img th:src="@{'/avo/'+ ${product.seller.filenameAvo}}" class="rounded-circle" width="50" height="50">
                     <a th:href="@{'/product/page/' + ${product.seller.id}}" th:text="'seller: ' + ${product.seller.username}"></a>
                     <div th:if="${product.filename == null}"></div>
                     <div th:unless="${product.filename == null}">

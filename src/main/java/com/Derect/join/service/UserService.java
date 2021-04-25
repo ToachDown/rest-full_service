@@ -1,6 +1,5 @@
 package com.Derect.join.service;
 
-import com.Derect.join.entity.Product;
 import com.Derect.join.entity.Role;
 import com.Derect.join.entity.User;
 import com.Derect.join.repository.UserRepository;

@@ -75,13 +75,9 @@ public class ProductService {
     public Product checkUpdate(Product prod,
                                String name,
                                int price,
-                               MultipartFile file){
+                               MultipartFile file) throws IOException {
         if(!file.isEmpty()) {
-            try {
-                saveFile(prod, file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+           saveFile(prod,file);
         }
         if(name != prod.getName()) {
             prod.setName(name);

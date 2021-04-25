@@ -41,27 +41,31 @@
 
 
     <div>
-        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            edit profile
-        </button>
-        <div class="collapse pt-2" id="collapseExample">
-            <form th:action="@{'/product/page/' + ${isAuthorized.id}}" class="needs-validation" method="post" enctype="multipart/form-data">
-                <div class="input-group flex-nowrap">
-                    <span class="input-group-text" id="addon-wrapping">username</span>
-                    <input name="username" type="text" class="form-control" placeholder="username" aria-label="username" aria-describedby="addon-wrapping">
-                    <input name="password" type="text" class="form-control" placeholder="password" aria-label="password" aria-describedby="addon-wrapping">
-                    <input name="password2" type="text" class="form-control" placeholder="password2" aria-label="password2" aria-describedby="addon-wrapping">
-                    <div class="form-group">
-                        <div class="custom-file">
-                            <input class="btn border border-primary" type="file" name="file" id="customFile"/>
-                            <label class="custom-file-label" for="customFile"></label>
+        <div th:if="${roots}">
+            <button  class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                edit profile
+            </button>
+
+            <div class="collapse pt-2" id="collapseExample">
+                <form th:action="@{'/product/page/' + ${isAuthorized.id}}" class="needs-validation" method="post" enctype="multipart/form-data">
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text" id="addon-wrapping">username</span>
+                        <input name="username" type="text" class="form-control" placeholder="username" aria-label="username" aria-describedby="addon-wrapping">
+                        <input name="password" type="text" class="form-control" placeholder="password" aria-label="password" aria-describedby="addon-wrapping">
+                        <input name="password2" type="text" class="form-control" placeholder="password2" aria-label="password2" aria-describedby="addon-wrapping">
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <input class="btn border border-primary" type="file" name="file" id="customFile"/>
+                                <label class="custom-file-label" for="customFile"></label>
+                            </div>
                         </div>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <button class="btn btn-outline-primary" type="submit">Submit</button>
                     </div>
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                    <button class="btn btn-outline-primary" type="submit">Submit</button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
+        <div th:unless="${roots}"></div>
     </div>
     <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 10 }'>
         <div th:each="product : ${prod}">
