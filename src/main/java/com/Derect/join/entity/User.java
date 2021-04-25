@@ -23,6 +23,7 @@ public class User implements UserDetails{
 
     private String filenameAvo;
 
+
     @NotBlank
     @Length(max = 24,min = 4, message = "you fill less than 4 letters or more than 24 letters")
     private String password;
@@ -38,6 +39,14 @@ public class User implements UserDetails{
     private String email;
 
     private String activationCode;
+
+    public String getFilenameAvo() {
+        return filenameAvo;
+    }
+
+    public void setFilenameAvo(String filenameAvo) {
+        this.filenameAvo = filenameAvo;
+    }
 
     public Long getId() {
         return id;

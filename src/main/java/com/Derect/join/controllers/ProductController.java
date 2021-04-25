@@ -58,8 +58,8 @@ public class ProductController {
     @PostMapping("/update")
     public String update(@Valid @RequestParam("name") String name,
                          @RequestParam("id") Long id,
-                         @RequestParam("price") int price,
-                         @RequestParam("file") MultipartFile file,
+                         @RequestParam(value = "price", required = false) int price,
+                         @RequestParam(value = "file", required = false) MultipartFile file,
                          Model model
     ) throws  IOException{
         Product prod = productService.findProductById(id);
@@ -74,7 +74,7 @@ public class ProductController {
                          Model model){
         productService.deleteProduct(id);
         model.addAttribute("isAuthorized", user);
-        return "redirect:/product";
+        return "redirect:/product/page/" + user.getId();
     }
 
     @GetMapping("/page/{id}")
@@ -82,7 +82,9 @@ public class ProductController {
                            Model model,
                            @AuthenticationPrincipal User user){
         Iterable<Product> prod = productService.findProductBySellerById(id);
+        User pageUser = productService.findSellerById(id);
         boolean roots = id == user.getId();
+        model.addAttribute("pageUser", pageUser);
         model.addAttribute("roots",roots);
         model.addAttribute("isAuthorized", user);
         model.addAttribute("prod", prod);

@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 public class RegistrationController {
@@ -40,6 +43,17 @@ public class RegistrationController {
         }
 
         return "redirect:/login";
+    }
+
+    @PostMapping("/product/page/{id}")
+    public String editUser(Model model,
+                           @AuthenticationPrincipal User user,
+                           @RequestParam("username") String username,
+                           @RequestParam(value = "password", required = false) String password,
+                           @RequestParam(value = "password2", required = false) String password2,
+                           @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+        userService.updateUser(file, user, password, password2,username);
+        return "redirect:/product/page/" + user.getId();
     }
 
     @GetMapping("/activate/{code}")

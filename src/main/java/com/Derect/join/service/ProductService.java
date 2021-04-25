@@ -45,6 +45,11 @@ public class ProductService {
         }
     }
 
+    public User findSellerById(Long id){
+        Optional<User> preUser = userRepository.findById(id);
+        return preUser.isPresent() ? preUser.get() : null ;
+    }
+
     public Iterable<Product> checkFilter(String filter){
         Iterable<Product> prod;
         if(filter != null && !filter.isEmpty()){

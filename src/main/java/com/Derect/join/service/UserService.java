@@ -5,6 +5,7 @@ import com.Derect.join.entity.Role;
 import com.Derect.join.entity.User;
 import com.Derect.join.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,6 +21,9 @@ import java.util.UUID;
 
 @Service
 public class UserService implements UserDetailsService {
+
+    @Value("${upload.path.avatar}")
+    private String uploadPath;
 
     @Autowired
     private UserRepository userRepository;
@@ -61,6 +65,45 @@ public class UserService implements UserDetailsService {
         }
 
         return true;
+    }
+
+    public void saveAvatar(User user,
+                           @RequestParam("file") MultipartFile file) throws IOException {
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            File uploadDir = new File(uploadPath);
+
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFilename = uuidFile + "." + file.getOriginalFilename();
+
+            file.transferTo(new File(uploadPath + "/" + resultFilename));
+
+            user.setFilenameAvo(resultFilename);
+        }
+    }
+
+    public String updateUser(@RequestParam("file") MultipartFile file,
+                           User user,
+                           String password,
+                           String password2,
+                           String username) throws IOException {
+        if(     !password.isEmpty() &&
+                !password2.isEmpty() &&
+                 password.compareTo(password2) == 0 &&
+                 password.compareTo(user.getPassword()) != 0){
+            user.setPassword(password);
+        }
+        if(!username.isEmpty() && username.compareTo(user.getUsername()) != 0){
+            user.setUsername(username);
+        }
+        if(!file.isEmpty()){
+            saveAvatar(user,file);
+        }
+        userRepository.save(user);
+        return "user update!";
     }
 
     public boolean activateUser(String code) {
