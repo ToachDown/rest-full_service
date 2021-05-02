@@ -59,8 +59,10 @@
         <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 10 }'>
             <div th:each="product : ${prod}">
                 <div class="grid-item border me-2 my-2" style="width: 18rem;">
-                    <img th:src="@{'/avo/'+ ${product.seller.filenameAvo}}" class="rounded-circle" width="50" height="50">
-                    <a th:href="@{'/product/page/' + ${product.seller.id}}" th:text="'seller: ' + ${product.seller.username}"></a>
+                    <div class="m-1">
+                        <img th:src="@{'/avo/'+ ${product.seller.filenameAvo}}" class="rounded-circle" width="50" height="50">
+                        <a class="link-dark lead" th:href="@{'/product/page/' + ${product.seller.id}}" th:text="${product.seller.username}"></a>
+                    </div>
                     <div th:if="${product.filename == null}"></div>
                     <div th:unless="${product.filename == null}">
                         <img th:src="@{'/img/'+${product.filename}}" class="card-img-top"/>
