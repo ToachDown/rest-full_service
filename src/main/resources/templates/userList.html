@@ -42,7 +42,7 @@
           <div th:each="user : ${usersList}">
             <td th:href="@{'/product/page/' + ${user.id}}" th:text="${user.username}"></td>
             <td th:text="${user.roles}"></td>
-            <td><a th:href="@{'#'}">edit</a></td>
+            <td><a th:href="@{'/user/' + ${user.id}}">edit</a></td>
           </div>
       </tbody>
   </table>
