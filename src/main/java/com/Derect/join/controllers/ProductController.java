@@ -1,5 +1,6 @@
 package com.Derect.join.controllers;
 
+import com.Derect.join.entity.Role;
 import com.Derect.join.entity.User;
 import com.Derect.join.entity.Product;
 import com.Derect.join.service.ProductService;
@@ -27,6 +28,7 @@ public class ProductController {
     ){
         Iterable<Product> prod = productService.checkFilter(filter);
         model.addAttribute("isAuthorized", user);
+        model.addAttribute("ADMIN",Role.ADMIN);
         model.addAttribute("prod", prod);
         return "homes";
     }
@@ -51,6 +53,7 @@ public class ProductController {
     ){
         Product prod = productService.findProductById(id);
         model.addAttribute("isAuthorized", user);
+        model.addAttribute("ADMIN",Role.ADMIN);
         model.addAttribute("prod", prod);
         return "updateMessage";
     }
@@ -74,6 +77,7 @@ public class ProductController {
                          Model model){
         productService.deleteProduct(id);
         model.addAttribute("isAuthorized", user);
+        model.addAttribute("ADMIN",Role.ADMIN);
         return "redirect:/product/page/" + user.getId();
     }
 
@@ -86,6 +90,7 @@ public class ProductController {
         boolean roots = id == user.getId();
         model.addAttribute("pageUser", pageUser);
         model.addAttribute("roots",roots);
+        model.addAttribute("ADMIN",Role.ADMIN);
         model.addAttribute("isAuthorized", user);
         model.addAttribute("prod", prod);
         return "mainPage";

@@ -24,7 +24,15 @@
                 <a class="nav-link lead" th:href="@{'/product/page/' + ${isAuthorized.id}}" th:text="${isAuthorized.username}"></a>
             </div>
         </li>
-
+        <li class="nav-item">
+            <div th:if="${isAuthorized != null}">
+                <div th:if="${isAuthorized.getRoles().contains(ADMIN)}">
+                    <a class="lead nav-link" href="/user">user list</a>
+                </div>
+                <div th:unless="${isAuthorized.getRoles().contains(ADMIN)}"></div>
+            </div>
+            <div th:unless="${isAuthorized != null}"></div>
+        </li>
         <li class="nav-item">
             <div th:if="${isAuthorized != null}">
                 <a class="nav-link lead" href="/logout">log out</a>

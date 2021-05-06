@@ -25,6 +25,15 @@
     </li>
     <li class="nav-item">
       <div th:if="${isAuthorized != null}">
+        <div th:if="${isAuthorized.getRoles().contains(ADMIN)}">
+          <a class="lead nav-link" href="/user">user list</a>
+        </div>
+        <div th:unless="${isAuthorized.getRoles().contains(ADMIN)}"></div>
+      </div>
+      <div th:unless="${isAuthorized != null}"></div>
+    </li>
+    <li class="nav-item">
+      <div th:if="${isAuthorized != null}">
         <a class="nav-link lead" href="/logout">log out</a>
       </div>
       <div th:unless="${isAuthorized != null}"><a class="nav-link lead" href="/login">Sign in</a></div>
@@ -33,16 +42,18 @@
   <table>
       <thead>
         <tr>
-          <th>Name  </th>
+          <th>Name </th>
           <th>Role  </th>
           <th></th>
         </tr>
       </thead>
       <tbody>
           <div th:each="user : ${usersList}">
-            <td th:href="@{'/product/page/' + ${user.id}}" th:text="${user.username}"></td>
-            <td th:text="${user.roles}"></td>
-            <td><a th:href="@{'/user/' + ${user.id}}">edit</a></td>
+            <tr>
+              <td th:href="@{'/product/page/' + ${user.id}}" th:text="${user.username}"></td>
+              <td th:text="${user.roles}"></td>
+              <td><a th:href="@{'/user/' + ${user.id}}">edit</a></td>
+            </tr>
           </div>
       </tbody>
   </table>
