@@ -24,6 +24,10 @@ public class Product {
     @JoinColumn(name = "user_id")
     private User seller;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "basket_id")
+    private Basket basket;
+
     public Product() {
     }
 
