@@ -141,4 +141,18 @@ public class ProductController {
         userRepository.save(user);
         return "redirect:/product/basket";
     }
+
+    @GetMapping("/basket/buy")
+    public String buyProducts(@AuthenticationPrincipal User user,
+                              Model model){
+        model.addAttribute("ADMIN",Role.ADMIN);
+        model.addAttribute("isAuthorized", user);
+        return "buyPage";
+    }
+
+    @PostMapping("/basket/buy")
+    public String buyProducts(@AuthenticationPrincipal User user){
+
+        return "redirect:/product/basket";
+    }
 }
