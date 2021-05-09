@@ -32,12 +32,14 @@
             </div>
             <div th:unless="${isAuthorized != null}"></div>
         </li>
+
         <li class="nav-item">
             <div th:if="${isAuthorized != null}">
                 <a class="nav-link lead" href="/logout">log out</a>
             </div>
             <div th:unless="${isAuthorized != null}"><a class="nav-link lead" href="/login">Sign in</a></div>
         </li>
+
         <li class="nav-item">
             <div th:if="${isAuthorized != null}">
                 <div th:if="${isAuthorized.basket != null}">
@@ -50,34 +52,17 @@
             <div th:unless="${isAuthorized != null}"></div>
         </li>
     </ul>
-    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-       Add Product
-    </button>
-    <div class="collapse pt-2" id="collapseExample">
-        <form action="/product" class="needs-validation" method="post" enctype="multipart/form-data">
-            <div class="input-group flex-nowrap">
-                <span class="input-group-text" id="addon-wrapping">name</span>
-                <input name="name" type="text" class="form-control" placeholder="name" aria-label="name" aria-describedby="addon-wrapping" required>
-                <input name="price" type="number" class="form-control" placeholder="price" aria-label="price" aria-describedby="addon-wrapping" required>
-                <div class="form-group">
-                    <div class="custom-file">
-                        <input class="btn border border-primary" type="file" name="file" id="customFile"/>
-                        <label class="custom-file-label" for="customFile"></label>
-                    </div>
-                </div>
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <button class="btn btn-outline-primary" type="submit">Submit</button>
-            </div>
+    <div>
+        <form action="/product/basket/clear" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <button class="btn btn-primary" type="submit">
+                Clear Basket
+            </button>
         </form>
     </div>
-    <form class="my-2" action="/product" method="get">
-        <div class="input-group flex-nowrap">
-            <input name="filter" type="text" class="form-control" placeholder="search by name" aria-label="find" aria-describedby="addon-wrapping">
-            <button class="btn btn-outline-primary" type="submit">find</button>
-        </div>
-    </form>
-        <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 10 }'>
-            <div th:each="product : ${prod}">
+    <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 10 }'>
+        <div th:if="${isAuthorized.basket != null}">
+            <div th:each="product : ${isAuthorized.basket.basketOfGoods}">
                 <div class="grid-item border me-2 my-2" style="width: 18rem;">
                     <div class="m-1">
                         <img th:src="@{'/avo/'+ ${product.seller.filenameAvo}}" class="rounded-circle" width="50" height="50">
@@ -90,15 +75,14 @@
                     <div class="card-body">
                         <h4 class="card-title" th:text="${product.name}"></h4>
                         <p th:text="'price: '+ ${product.price} + '$'"></p>
-                        <form action="/product/add" method="post">
-                            <input type="hidden" name="productId" th:value="${product.id}">
-                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                            <button class="btn btn-outline-primary" type="submit">buy</button>
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
+        <div th:unless="${isAuthorized.basket != null}">
+            <h3 class="lead">You basket is empty</h3>
+        </div>
+    </div>
 </div>
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"

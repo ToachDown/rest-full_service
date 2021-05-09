@@ -12,6 +12,7 @@ create table product (
 
 create table basket (
     id int8 not null,
+    basket_user_id int8,
     primary key (id)
 );
 
@@ -42,3 +43,7 @@ alter table if exists user_role
 alter table if exists product
     add constraint product_basket_fk
         foreign key (basket_id) references basket;
+
+alter table if exists basket
+    add constraint basket_user_fk
+        foreign key (basket_user_id) references usr;

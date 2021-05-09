@@ -1,9 +1,12 @@
 package com.Derect.join.controllers;
 
+import com.Derect.join.entity.Basket;
 import com.Derect.join.entity.Role;
 import com.Derect.join.entity.User;
 import com.Derect.join.entity.Product;
+import com.Derect.join.repository.UserRepository;
 import com.Derect.join.service.ProductService;
+import com.Derect.join.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/product")
@@ -20,6 +25,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping()
     public String list(@RequestParam(required = false, defaultValue = "") String filter,
@@ -94,5 +102,43 @@ public class ProductController {
         model.addAttribute("isAuthorized", user);
         model.addAttribute("prod", prod);
         return "mainPage";
+    }
+
+    @PostMapping("/add")
+    public String addToBasket(
+            @AuthenticationPrincipal User user,
+            @RequestParam("productId") Long id
+    ){
+        Product prod = productService.findProductById(id);
+        if(user.getBasket() == null){
+            Basket basket = new Basket();
+            Set<Product> products = new HashSet<>();
+            products.add(prod);
+            basket.setBasketOfGoods(products);
+            user.setBasket(basket);
+        } else {
+            Basket basket = user.getBasket();
+            Set<Product> products = basket.getBasketOfGoods();
+            products.add(prod);
+            basket.setBasketOfGoods(products);
+            user.setBasket(basket);
+        }
+        userRepository.save(user);
+        return "redirect:/product";
+    }
+
+    @GetMapping("/basket")
+    public String returnBasket(Model model,
+                               @AuthenticationPrincipal User user){
+        model.addAttribute("ADMIN",Role.ADMIN);
+        model.addAttribute("isAuthorized", user);
+        return "basket";
+    }
+
+    @PostMapping("/basket/clear")
+    public String clearBasket(@AuthenticationPrincipal User user){
+        user.setBasket(null);
+        userRepository.save(user);
+        return "redirect:/product/basket";
     }
 }

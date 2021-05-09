@@ -34,6 +34,9 @@ public class User implements UserDetails{
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+    @OneToOne(mappedBy = "currentUser", cascade = CascadeType.ALL)
+    private Basket basket;
+
     @Email
     private String email;
 
@@ -48,6 +51,14 @@ public class User implements UserDetails{
     }
 
     public User() {
+    }
+
+    public Basket getBasket() {
+        return basket;
+    }
+
+    public void setBasket(Basket basket) {
+        this.basket = basket;
     }
 
     public Long getId() {

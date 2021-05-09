@@ -77,6 +77,14 @@ public class Product {
         this.price = price;
     }
 
+    public Basket getBasket() {
+        return basket;
+    }
+
+    public void setBasket(Basket basket) {
+        this.basket = basket;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
